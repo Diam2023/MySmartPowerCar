@@ -55,14 +55,17 @@ Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c \
 Src/car.c \
 Src/driver.c \
 Src/gpio.c \
+Src/hadler.c \
 Src/iwdg.c \
 Src/main.c \
+Src/proc.c \
 Src/spi.c \
 Src/stm32f1xx_hal_msp.c \
 Src/stm32f1xx_it.c \
 Src/system_stm32f1xx.c \
 Src/tim.c \
-Src/usart.c
+Src/usart.c \
+priority-timer-queue/src/priority_timer_queue_func.c
 
 
 CPP_SOURCES = \
@@ -138,7 +141,8 @@ C_INCLUDES =  \
 -IDrivers/CMSIS/Include \
 -IDrivers/STM32F1xx_HAL_Driver/Inc \
 -IDrivers/STM32F1xx_HAL_Driver/Inc/Legacy \
--IInc
+-IInc \
+-Ipriority-timer-queue/inc
 
 
 

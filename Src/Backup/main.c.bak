@@ -27,6 +27,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "driver.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,11 +49,45 @@
 
 /* USER CODE BEGIN PV */
 
+DRIVER *driver;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim == &htim3)
+  {
+    timer_running();
+    run_inner_timer_node();
+  }
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  switch (GPIO_Pin)
+  {
+  case M1_EA_I1_Pin:
+    /* code */
+    break;
+  case M1_EB_I0_Pin:
+    /* code */
+    break;
+  case M2_EA_I7_Pin:
+    /* code */
+    break;
+  case M2_EB_I6_Pin:
+    /* code */
+    break;
+  default:
+    break;
+  }
+}
+
+
 
 /* USER CODE END PFP */
 
@@ -96,12 +132,51 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  DRIVER_Init();
+  PROC_Init();
+
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    // HAL_IWDG_Refresh(&hiwdg);
+
+    if (htim3.State == HAL_TIM_STATE_BUSY)
+    {
+      run_timer_node();
+    }
+
+    for (size_t i = 0; i < 100; i++)
+    {
+      DriverPower(driver, 0, i * 0.01, i * 0.01);
+      HAL_Delay(50);
+    }
+    HAL_Delay(300);
+    for (size_t i = 0; i < 100; i++)
+    {
+      DriverPower(driver, 0, -i * 0.01, -i * 0.01);
+      HAL_Delay(50);
+    }
+    HAL_Delay(300);
+    for (size_t i = 100; i > 1; i--)
+    {
+      DriverPower(driver, 0, i * 0.01, i * 0.01);
+      HAL_Delay(50);
+    }
+    HAL_Delay(300);
+    for (size_t i = 100; i > 1; i--)
+    {
+      DriverPower(driver, 0, -i * 0.01, -i * 0.01);
+      HAL_Delay(50);
+    }
+    HAL_Delay(300);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -164,6 +239,8 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+    HAL_Delay(500);
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
   }
   /* USER CODE END Error_Handler_Debug */
 }

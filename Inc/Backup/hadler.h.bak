@@ -1,14 +1,23 @@
 #ifndef __DRIVER_H_
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 #include "main.h"
-#include "proc.h"
 
-void DRIVER_Init();
+
+
+
+
+
+
+
+
+/**
+ * @brief  处理错误
+ */
+void ErrorHandler();
 
 #ifdef __cplusplus
 }

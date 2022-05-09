@@ -2,22 +2,7 @@
 
 void ServoRotate(SERVO *servo, float angle)
 {
-  // 占空比与旋转角度换算：t = 0.5ms为0度， 2.5ms为180度
-  // 这里只需要90度 等待验证从多少度到多少度。
-  // t/T为占空比 T为20ms
-  // 设小车向前为90度。则左传为90-22.5=67.5度 右转为90+22.5=112.5度
-
-  assert_param(angle <= 1 && angle >= -1);
-
-  float angle_ = 90 + angle * 22.5;
-
-  float t = angle_ * 2.5 / 180;
-
-  uint32_t arr = __HAL_TIM_GetAutoreload(servo->servo.htim);
-
-  uint32_t ccr = arr * t;
-
-  __HAL_TIM_SetCompare(servo->servo.htim, servo->servo.channel, ccr);
+  
 }
 
 
@@ -58,3 +43,4 @@ void DriverPower(DRIVER *driver, float angle, float power_a, float power_b)
   MotorPower(&driver->motor_a, power_a);
   MotorPower(&driver->motor_b, power_b);
 }
+

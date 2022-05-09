@@ -32,6 +32,10 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "priority_timer_queue_func.h"
+
+#include "car.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -85,8 +89,6 @@ void Error_Handler(void);
 #define ECHO_GPIO_Port GPIOB
 #define SERVO_T1_CH2N_Pin GPIO_PIN_14
 #define SERVO_T1_CH2N_GPIO_Port GPIOB
-#define DL_IRQ_Pin GPIO_PIN_10
-#define DL_IRQ_GPIO_Port GPIOA
 #define DL_CE_Pin GPIO_PIN_11
 #define DL_CE_GPIO_Port GPIOA
 #define DL_CSN_Pin GPIO_PIN_12

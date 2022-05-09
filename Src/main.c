@@ -49,6 +49,8 @@
 
 /* USER CODE BEGIN PV */
 
+DRIVER *driver;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -85,7 +87,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   }
 }
 
-
+#define TEST_SERVO 1
+#define TEST 1
 
 /* USER CODE END PFP */
 
@@ -122,7 +125,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  #ifndef TEST
   MX_IWDG_Init();
+  #endif
   MX_SPI1_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
@@ -131,6 +136,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   DRIVER_Init();
+  PROC_Init();
 
   /* USER CODE END 2 */
 
@@ -138,12 +144,57 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    #ifndef TEST
     HAL_IWDG_Refresh(&hiwdg);
+    #endif
 
     if (htim3.State == HAL_TIM_STATE_BUSY)
     {
       run_timer_node();
     }
+
+    #ifdef TEST_MOTOR
+    for (size_t i = 0; i < 100; i++)
+    {
+      DriverPower(driver, 0, i * 0.01, i * 0.01);
+      HAL_Delay(50);
+    }
+    HAL_Delay(300);
+    for (size_t i = 0; i < 100; i++)
+    {
+      DriverPower(driver, 0, -i * 0.01, -i * 0.01);
+      HAL_Delay(50);
+    }
+    HAL_Delay(300);
+    for (size_t i = 100; i > 1; i--)
+    {
+      DriverPower(driver, 0, i * 0.01, i * 0.01);
+      HAL_Delay(50);
+    }
+    HAL_Delay(300);
+    for (size_t i = 100; i > 1; i--)
+    {
+      DriverPower(driver, 0, -i * 0.01, -i * 0.01);
+      HAL_Delay(50);
+    }
+    HAL_Delay(300);
+    #endif
+
+    #ifdef TEST_SERVO
+    for (size_t i = 0; i < 100; i++)
+    {
+      DriverPower(driver, i / 100, 0, 0);
+      HAL_Delay(300);
+    }
+    HAL_Delay(1000);
+    for (size_t i = 100; i > 0; i--)
+    {
+      DriverPower(driver, i / 100, 0, 0);
+      HAL_Delay(300);
+    }
+    #endif
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -206,7 +257,8 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
-    HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+    HAL_Delay(500);
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
   }
   /* USER CODE END Error_Handler_Debug */
 }

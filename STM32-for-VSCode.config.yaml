@@ -75,6 +75,7 @@ includeDirectories:
   - Drivers/STM32F1xx_HAL_Driver/Inc/Legacy
   - Drivers/CMSIS/Device/ST/STM32F1xx/Include
   - Drivers/CMSIS/Include
+  - priority-timer-queue/inc
   - Inc/**
   - Core/Inc/**
   - Core/Lib/**
@@ -90,6 +91,7 @@ includeDirectories:
 # these should be escaped with a: \ or the name should be in double quotes e.g. "HARDWARE_DRIVER*.c"
 sourceFiles:  
   - startup_stm32f103xb.s
+  - priority-timer-queue/src/priority_timer_queue_func.c
   - Src/main.c
   - Src/gpio.c
   - Src/iwdg.c

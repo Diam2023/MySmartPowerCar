@@ -101,7 +101,7 @@ typedef struct {
 /**
  * @brief  提供舵机旋转操作函数
  * @param  servo: 储存控制舵机的PWM发生器的结构体
- * @param  angle: 旋转到的角度，设0为中间，负数为左传角度，反之右转角度为1或-1即为打满舵机
+ * @param  angle: 旋转到的角度
  */
 void ServoRotate(SERVO *servo, float angle);
 
