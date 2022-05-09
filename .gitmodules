@@ -1,0 +1,3 @@
+[submodule "priority-timer-queue"]
+	path = priority-timer-queue
+	url = https://gitee.com/monoliths-uni/priority-timer-queue.git
