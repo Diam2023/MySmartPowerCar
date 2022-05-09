@@ -6,6 +6,7 @@ extern "C"
 #endif
 
 #include "main.h"
+#include "priority_timer_queue_func.h"
 
 void DRIVER_Init();
 
